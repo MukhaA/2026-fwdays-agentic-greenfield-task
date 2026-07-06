@@ -8,6 +8,7 @@ import { ActivityChart } from "./ActivityChart";
 import { ReachBar } from "./ReachBar";
 import { RepoSplit } from "./RepoSplit";
 import { Panel } from "./Panel";
+import { TopRepos } from "./TopRepos";
 
 // Single-user stats dashboard: profile, fifteen metric cards, and CSS charts —
 // language breakdown, recent activity, reach & influence, repository composition
@@ -77,6 +78,10 @@ export function StatsView({ stats }: { stats: UserStats }) {
       >
         <RepoSplit original={metrics.originalRepos} forked={metrics.forkedRepos} />
       </Panel>
+
+      <div className="ds-fade-up">
+        <TopRepos login={stats.login} repos={stats.topRepos} />
+      </div>
     </div>
   );
 }

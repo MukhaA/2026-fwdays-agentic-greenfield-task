@@ -21,6 +21,23 @@ Each entry records a **timestamp**, the **change**, relevant **links**
 
 ## Log
 
+### 2026-07-06 — Top repositories section (OpenSpec `stats-top-repos`)
+
+- **Change:** Added a collapsible **Top repositories** panel to the stats page:
+  the ten most-starred repos (ties broken by most-recent push), each linking to
+  GitHub, plus a "View all repositories on GitHub" out-link.
+- **Links:** `app/components/TopRepos.tsx` · `app/components/StatsView.tsx` ·
+  `lib/github/types.ts` · `lib/types.ts` (`RepoSummary`, `UserStats.topRepos`) ·
+  `lib/metrics/aggregate.ts` (`buildTopRepos`) · `lib/metrics/format.ts`
+  (`formatMonthYear`) · specs: `user-stats/spec.md` + `github-data/spec.md`
+- **Brief:** Extended `RawRepo` with `description`/`html_url`/`pushed_at`; pure
+  `buildTopRepos` ranks by stars desc then recency and caps at ten (empty-safe,
+  unit-tested). `TopRepos` is a client disclosure (aria-expanded + chevron,
+  default open) rendering rank · name link · language dot · description · ★ stars ·
+  month/year, with the GitHub repos-tab link below. No new fetches — repos were
+  already loaded. Verified with a headless screenshot of `/stats/sindresorhus`
+  (ranking + links correct). Gate green (33 tests).
+
 ### 2026-07-06 — Stats charts dashboard (OpenSpec `stats-charts`)
 
 - **Change:** Expanded `/stats/[username]` from numbers-only into a panelled

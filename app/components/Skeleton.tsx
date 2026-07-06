@@ -55,6 +55,7 @@ export function StatsSkeleton() {
       </div>
       <PanelSkeleton lines={4} />
       <PanelSkeleton lines={2} />
+      <PanelSkeleton lines={6} />
     </div>
   );
 }

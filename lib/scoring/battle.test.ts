@@ -21,6 +21,7 @@ function stats(login: string, metrics: Partial<Metrics>): UserStats {
     },
     metrics: { ...ZERO, ...metrics },
     languages: [],
+    topRepos: [],
   };
 }
 

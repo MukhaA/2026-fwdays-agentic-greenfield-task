@@ -21,6 +21,8 @@ export interface RawUser {
 /** One item of `GET /users/{u}/repos` */
 export interface RawRepo {
   name: string;
+  html_url: string;
+  description: string | null;
   fork: boolean;
   language: string | null;
   stargazers_count: number;
@@ -28,6 +30,8 @@ export interface RawRepo {
   watchers_count: number;
   /** Repository size in KB. */
   size: number;
+  /** ISO 8601 timestamp of the last push (used for recency). */
+  pushed_at: string;
 }
 
 /** One item of `GET /users/{u}/events` */

@@ -7,6 +7,7 @@
 import type {
   LanguageSlice,
   Metrics,
+  RepoSummary,
   UserProfile,
   UserStats,
 } from "@/lib/types";
@@ -99,6 +100,32 @@ export function buildLanguages(repos: RawRepo[]): LanguageSlice[] {
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 }
 
+/**
+ * Rank repositories for the top-repositories list: star count descending, ties
+ * broken by most-recent push (newest first); keep at most `limit`. Pure and
+ * empty-safe (user-stats / github-data: top repositories).
+ */
+export function buildTopRepos(repos: RawRepo[], limit = 10): RepoSummary[] {
+  return [...repos]
+    .sort((a, b) => {
+      if (b.stargazers_count !== a.stargazers_count) {
+        return b.stargazers_count - a.stargazers_count;
+      }
+      // Tie: newer last-push first.
+      return new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime();
+    })
+    .slice(0, limit)
+    .map((r) => ({
+      name: r.name,
+      htmlUrl: r.html_url,
+      description: r.description,
+      language: r.language,
+      languageColor: r.language ? languageColor(r.language) : null,
+      stars: r.stargazers_count,
+      pushedAt: r.pushed_at,
+    }));
+}
+
 /** Normalize the profile fields the views render (FR-STATS-01). */
 export function buildProfile(user: RawUser): UserProfile {
   return {
@@ -134,5 +161,6 @@ export function buildUserStats(
     profile: buildProfile(user),
     metrics: aggregateMetrics(user, repos, events, now),
     languages: buildLanguages(repos),
+    topRepos: buildTopRepos(repos),
   };
 }

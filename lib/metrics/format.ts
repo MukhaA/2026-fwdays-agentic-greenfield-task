@@ -32,3 +32,14 @@ function trim(n: number): string {
   // One decimal, but drop a trailing ".0".
   return n.toFixed(1).replace(/\.0$/, "");
 }
+
+/** Short month + year for a repo's last activity: "2026-06-01" → "Jun 2026". */
+export function formatMonthYear(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(d);
+}

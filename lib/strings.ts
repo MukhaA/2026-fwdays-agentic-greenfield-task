@@ -80,6 +80,12 @@ export const strings = {
     joined: (year: number) => `Joined ${year}`,
     followersMeta: (display: string) => `${display} followers`,
     followingMeta: (display: string) => `${display} following`,
+    // Top repositories
+    topReposTitle: "Top repositories",
+    topReposSub: "10 most-starred · newest first on ties",
+    viewAllRepos: "View all repositories on GitHub",
+    noRepos: "No public repositories.",
+    toggleRepos: "Toggle top repositories",
   },
 
   battle: {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatCompact, formatKb, formatYears } from "./format";
+import { formatCompact, formatKb, formatMonthYear, formatYears } from "./format";
 
 describe("formatCompact", () => {
   it("leaves small numbers intact", () => {
@@ -21,6 +21,17 @@ describe("formatYears", () => {
   it("suffixes with y", () => {
     expect(formatYears(5)).toBe("5y");
     expect(formatYears(0)).toBe("0y");
+  });
+});
+
+describe("formatMonthYear", () => {
+  it("renders short month and year (UTC)", () => {
+    expect(formatMonthYear("2026-06-15T00:00:00Z")).toBe("Jun 2026");
+    expect(formatMonthYear("2025-11-01T00:00:00Z")).toBe("Nov 2025");
+  });
+
+  it("returns empty string for an invalid date", () => {
+    expect(formatMonthYear("not-a-date")).toBe("");
   });
 });
 

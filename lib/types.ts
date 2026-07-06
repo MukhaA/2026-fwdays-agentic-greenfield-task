@@ -51,12 +51,27 @@ export interface LanguageSlice {
   color: string | null;
 }
 
+/** One entry in the top-repositories list (user-stats: top repositories). */
+export interface RepoSummary {
+  name: string;
+  htmlUrl: string;
+  description: string | null;
+  language: string | null;
+  /** GitHub's color for the language (hex), or null if unknown. */
+  languageColor: string | null;
+  stars: number;
+  /** ISO 8601 last-activity timestamp (for the row's month/year + tie-break). */
+  pushedAt: string;
+}
+
 /** The typed result of aggregating one user's raw GitHub payloads. */
 export interface UserStats {
   login: string;
   profile: UserProfile;
   metrics: Metrics;
   languages: LanguageSlice[];
+  /** Up to ten most-starred repos, ties broken by recency. */
+  topRepos: RepoSummary[];
 }
 
 /** Which side won: `a`, `b`, or a `draw` (FR-SCORE-03, FR-BATTLE-03). */

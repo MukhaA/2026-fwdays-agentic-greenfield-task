@@ -3,6 +3,7 @@ import {
   aggregateMetrics,
   buildLanguages,
   buildProfile,
+  buildTopRepos,
   buildUserStats,
   wholeYears,
 } from "./aggregate";
@@ -32,12 +33,15 @@ function user(overrides: Partial<RawUser> = {}): RawUser {
 function repo(overrides: Partial<RawRepo> = {}): RawRepo {
   return {
     name: "repo",
+    html_url: "https://github.com/octocat/repo",
+    description: null,
     fork: false,
     language: "TypeScript",
     stargazers_count: 0,
     forks_count: 0,
     watchers_count: 0,
     size: 0,
+    pushed_at: "2026-01-01T00:00:00Z",
     ...overrides,
   };
 }
@@ -163,6 +167,32 @@ describe("buildProfile", () => {
     expect(buildProfile(user({ created_at: "2022-03-01T00:00:00Z" })).createdAt).toBe(
       "2022-03-01T00:00:00Z",
     );
+  });
+});
+
+describe("buildTopRepos (top repositories)", () => {
+  it("ranks by stars desc, breaks ties by newer push, caps at limit", () => {
+    const repos = [
+      repo({ name: "b", stargazers_count: 410, pushed_at: "2025-11-01T00:00:00Z" }),
+      repo({ name: "a", stargazers_count: 410, pushed_at: "2026-04-01T00:00:00Z" }),
+      repo({ name: "top", stargazers_count: 2100, pushed_at: "2026-06-01T00:00:00Z" }),
+      repo({ name: "low", stargazers_count: 5, pushed_at: "2026-05-01T00:00:00Z" }),
+    ];
+    const top = buildTopRepos(repos, 3);
+    expect(top.map((r) => r.name)).toEqual(["top", "a", "b"]); // tie 410: a (Apr) before b (Nov'25)
+    expect(top).toHaveLength(3);
+  });
+
+  it("carries display fields incl. language color", () => {
+    const [r] = buildTopRepos([
+      repo({ name: "x", language: "Go", stargazers_count: 9, description: "hi", html_url: "https://github.com/o/x" }),
+    ]);
+    expect(r).toMatchObject({ name: "x", stars: 9, description: "hi", language: "Go", languageColor: "#00ADD8", htmlUrl: "https://github.com/o/x" });
+  });
+
+  it("is empty-safe and null-language safe", () => {
+    expect(buildTopRepos([])).toEqual([]);
+    expect(buildTopRepos([repo({ language: null })])[0].languageColor).toBeNull();
   });
 });
 
