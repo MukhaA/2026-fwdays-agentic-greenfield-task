@@ -50,50 +50,49 @@ export function TopRepos({ login, repos }: { login: string; repos: RepoSummary[]
           ) : (
             <ol className="border-t border-border">
               {repos.map((repo, i) => (
-                <li
-                  key={repo.name}
-                  className="flex items-center gap-4 border-b border-border px-6 py-4 last:border-b-0"
-                >
-                  <span className="w-6 shrink-0 font-serif text-body italic text-text-muted">
-                    {i + 1}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <a
-                        href={repo.htmlUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="truncate font-sans text-body font-semibold text-accent-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-                      >
-                        {repo.name}
-                      </a>
-                      {repo.language && (
-                        <span className="flex shrink-0 items-center gap-1.5 font-sans text-small text-text-muted">
-                          <span
-                            className="size-[10px] rounded-[3px]"
-                            style={{ background: repo.languageColor ?? FALLBACK_DOT }}
-                            aria-hidden
-                          />
-                          {repo.language}
+                <li key={repo.name} className="border-b border-border last:border-b-0">
+                  <a
+                    href={repo.htmlUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-surface-track focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary"
+                  >
+                    <span className="w-6 shrink-0 font-serif text-body italic text-text-muted">
+                      {i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="truncate font-sans text-body font-semibold text-accent-primary group-hover:underline">
+                          {repo.name}
                         </span>
+                        {repo.language && (
+                          <span className="flex shrink-0 items-center gap-1.5 font-sans text-small text-text-muted">
+                            <span
+                              className="size-[10px] rounded-[3px]"
+                              style={{ background: repo.languageColor ?? FALLBACK_DOT }}
+                              aria-hidden
+                            />
+                            {repo.language}
+                          </span>
+                        )}
+                      </div>
+                      {repo.description && (
+                        <p className="mt-1 truncate font-sans text-small text-text-muted">
+                          {repo.description}
+                        </p>
                       )}
                     </div>
-                    {repo.description && (
-                      <p className="mt-1 truncate font-sans text-small text-text-muted">
-                        {repo.description}
-                      </p>
-                    )}
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <div className="font-serif text-body">
-                      <span aria-hidden>★ </span>
-                      <span className="sr-only">stars: </span>
-                      {formatCompact(repo.stars)}
+                    <div className="shrink-0 text-right">
+                      <div className="font-serif text-body">
+                        <span aria-hidden>★ </span>
+                        <span className="sr-only">stars: </span>
+                        {formatCompact(repo.stars)}
+                      </div>
+                      <div className="mt-0.5 font-sans text-caption text-text-muted">
+                        {formatMonthYear(repo.pushedAt)}
+                      </div>
                     </div>
-                    <div className="mt-0.5 font-sans text-caption text-text-muted">
-                      {formatMonthYear(repo.pushedAt)}
-                    </div>
-                  </div>
+                  </a>
                 </li>
               ))}
               <li className="px-6 py-5 text-center">
