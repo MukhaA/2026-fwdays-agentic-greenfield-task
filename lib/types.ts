@@ -36,6 +36,8 @@ export interface UserProfile {
   blog: string | null;
   company: string | null;
   htmlUrl: string;
+  /** ISO 8601 account creation timestamp (for the joined year). */
+  createdAt: string;
 }
 
 /** One slice of the language-breakdown chart (FR-LANG-01/02). */

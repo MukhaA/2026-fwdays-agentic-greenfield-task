@@ -158,6 +158,12 @@ describe("buildProfile", () => {
     expect(buildProfile(user({ blog: "  " })).blog).toBeNull();
     expect(buildProfile(user({ blog: null })).blog).toBeNull();
   });
+
+  it("carries the created_at timestamp for the joined year", () => {
+    expect(buildProfile(user({ created_at: "2022-03-01T00:00:00Z" })).createdAt).toBe(
+      "2022-03-01T00:00:00Z",
+    );
+  });
 });
 
 describe("buildUserStats", () => {

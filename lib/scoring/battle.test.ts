@@ -17,6 +17,7 @@ function stats(login: string, metrics: Partial<Metrics>): UserStats {
       blog: null,
       company: null,
       htmlUrl: "",
+      createdAt: "2020-01-01T00:00:00Z",
     },
     metrics: { ...ZERO, ...metrics },
     languages: [],

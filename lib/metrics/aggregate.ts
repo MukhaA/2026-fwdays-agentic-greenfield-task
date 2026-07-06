@@ -110,6 +110,7 @@ export function buildProfile(user: RawUser): UserProfile {
     blog: normalizeUrl(user.blog),
     company: user.company,
     htmlUrl: user.html_url,
+    createdAt: user.created_at,
   };
 }
 

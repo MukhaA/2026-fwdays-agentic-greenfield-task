@@ -56,10 +56,30 @@ export const strings = {
   },
 
   stats: {
-    languagesTitle: "Languages",
+    languagesTitle: "Language breakdown",
     languagesUnit: "languages",
     noLanguages: "No public repositories with a detected language.",
     reposUnit: "repos",
+    activityTitle: "Recent activity",
+    activitySub: "Public events · trailing 90 days",
+    reachTitle: "Reach & influence",
+    repoTitle: "Repository composition",
+    repoMeta: (count: number) => `${count} public repos`,
+    original: "Original",
+    forked: "Forked",
+    // Chart series labels
+    commits: "Commits",
+    pullRequests: "Pull requests",
+    issues: "Issues",
+    releases: "Releases",
+    stars: "Stars",
+    forks: "Forks",
+    watchers: "Watchers",
+    followers: "Followers",
+    // Profile meta line
+    joined: (year: number) => `Joined ${year}`,
+    followersMeta: (display: string) => `${display} followers`,
+    followingMeta: (display: string) => `${display} following`,
   },
 
   battle: {
@@ -80,15 +100,15 @@ export const strings = {
 /** Human labels for the fifteen metrics (sentence case per DESIGN.md). */
 export const metricLabels: Record<MetricKey, string> = {
   totalStars: "Total stars",
-  totalForks: "Total forks",
+  totalForks: "Forks received",
   followers: "Followers",
   originalRepos: "Original repos",
-  languageDiversity: "Languages",
+  languageDiversity: "Language diversity",
   accountAgeYears: "Account age",
-  commitActivity: "Commits (90d)",
-  prActivity: "Pull requests (90d)",
-  issueActivity: "Issues (90d)",
-  releases: "Releases (90d)",
+  commitActivity: "Commits · 90d",
+  prActivity: "PRs · 90d",
+  issueActivity: "Issues · 90d",
+  releases: "Releases · 90d",
   publicGists: "Public gists",
   totalWatchers: "Watchers",
   codeVolumeKb: "Code volume",

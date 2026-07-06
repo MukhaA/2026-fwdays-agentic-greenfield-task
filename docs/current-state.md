@@ -21,6 +21,25 @@ Each entry records a **timestamp**, the **change**, relevant **links**
 
 ## Log
 
+### 2026-07-06 — Stats charts dashboard (OpenSpec `stats-charts`)
+
+- **Change:** Expanded `/stats/[username]` from numbers-only into a panelled
+  dashboard: added a **Recent activity** bar chart, **Reach & influence**
+  horizontal bars, and a **Repository composition** stacked bar, plus an enriched
+  profile meta line (joined year + follower/following counts).
+- **Links:** `app/components/{Panel,ActivityChart,ReachBar,RepoSplit,StatsView,
+  Skeleton}.tsx` · `lib/types.ts` · `lib/metrics/aggregate.ts` · `lib/strings.ts`
+  · spec: `openspec/specs/user-stats/spec.md` (FR-STATS-01 modified + 3 chart
+  requirements added)
+- **Brief:** All charts are pure CSS (TC-STACK-05) fed by the existing fifteen
+  metrics — no new fetches. Added `createdAt` to `UserProfile` for the joined
+  year. Metric labels tweaked to the dashboard wording ("Forks received",
+  "PRs · 90d", …). Metric grid → 6 columns on lg, wrapped in a panel; language +
+  activity share a 2-col row; reach and repo-composition are full-width panels.
+  Charts are zero-repo/zero-metric safe. Skeleton extended with panel placeholders
+  (no layout shift). Verified with a headless screenshot of `/stats/torvalds`
+  against the mock; gate green (28 tests).
+
 ### 2026-07-06 — Landing redesign + type-scale fix (OpenSpec `landing-redesign`)
 
 - **Change:** Restyled the landing to a centered three-tier hero (italic eyebrow
