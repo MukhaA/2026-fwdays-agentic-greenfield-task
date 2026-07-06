@@ -100,19 +100,23 @@ export function LandingForm() {
     else if (result === "error") setFormError(strings.states.genericErrorBody);
   }
 
-  const submitLabel = pending
+  const actionLabel = pending
     ? landing.validating
     : mode === "stats"
       ? landing.exploreAction
       : landing.fightAction;
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full max-w-md flex-col gap-4" noValidate>
-      {/* Mode toggle (FR-LAND-01) */}
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className="flex flex-col items-center gap-5"
+    >
+      {/* Mode toggle (FR-LAND-01), centered */}
       <div
         role="tablist"
         aria-label="Mode"
-        className="inline-flex w-fit gap-1 rounded-md border border-border bg-surface p-1"
+        className="inline-flex gap-1 rounded-md border border-border bg-surface p-1"
       >
         {(
           [
@@ -129,7 +133,7 @@ export function LandingForm() {
               aria-selected={on}
               onClick={() => switchMode(value)}
               className={`rounded-[8px] px-5 py-2 font-sans text-[14px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary ${
-                on ? "bg-accent-primary text-white" : "text-text-muted hover:text-text"
+                on ? "bg-accent-primary text-bg" : "text-text-muted hover:text-text"
               }`}
             >
               {label}
@@ -138,22 +142,38 @@ export function LandingForm() {
         })}
       </div>
 
-      {/* Inputs (FR-LAND-02) */}
-      <Field
-        label={mode === "stats" ? landing.statsInputLabel : landing.battleInputLabelA}
-        value={a}
-        onChange={setA}
-        error={errA}
-        disabled={pending}
-      />
-      {mode === "battle" && (
-        <Field
-          label={landing.battleInputLabelB}
-          value={b}
-          onChange={setB}
-          error={errB}
-          disabled={pending}
-        />
+      {/* Entry row (FR-LAND-02). Explore: input + action inline.
+          Compare: two inputs over a full-width action. */}
+      {mode === "stats" ? (
+        <div className="flex w-full max-w-xl flex-col items-stretch gap-3 sm:flex-row sm:items-start">
+          <Field
+            label={landing.statsInputLabel}
+            value={a}
+            onChange={setA}
+            error={errA}
+            disabled={pending}
+            className="flex-1"
+          />
+          <SubmitButton label={actionLabel} pending={pending} />
+        </div>
+      ) : (
+        <div className="flex w-full max-w-xl flex-col items-stretch gap-3">
+          <Field
+            label={landing.battleInputLabelA}
+            value={a}
+            onChange={setA}
+            error={errA}
+            disabled={pending}
+          />
+          <Field
+            label={landing.battleInputLabelB}
+            value={b}
+            onChange={setB}
+            error={errB}
+            disabled={pending}
+          />
+          <SubmitButton label={actionLabel} pending={pending} className="w-full" />
+        </div>
       )}
 
       {formError && (
@@ -161,11 +181,30 @@ export function LandingForm() {
           {formError}
         </p>
       )}
-
-      <Button type="submit" variant="accent" disabled={pending} aria-busy={pending} className="mt-1 w-fit">
-        {submitLabel}
-      </Button>
     </form>
+  );
+}
+
+function SubmitButton({
+  label,
+  pending,
+  className = "",
+}: {
+  label: string;
+  pending: boolean;
+  className?: string;
+}) {
+  return (
+    <Button
+      type="submit"
+      variant="primary"
+      disabled={pending}
+      aria-busy={pending}
+      className={className}
+    >
+      {label}
+      {!pending && <span aria-hidden className="ml-2">→</span>}
+    </Button>
   );
 }
 
@@ -175,18 +214,20 @@ function Field({
   onChange,
   error,
   disabled,
+  className = "",
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   error: string;
   disabled: boolean;
+  className?: string;
 }) {
   return (
-    <label className="block">
-      <span className="mb-1.5 block font-sans text-caption text-text-muted">{label}</span>
+    <div className={className}>
       <input
         value={value}
+        aria-label={label}
         placeholder={strings.landing.inputPlaceholder}
         disabled={disabled}
         onChange={(e) => onChange(e.target.value)}
@@ -198,8 +239,10 @@ function Field({
         style={{ borderColor: error ? "var(--accent-danger)" : "var(--border)" }}
       />
       {error && (
-        <span className="mt-1.5 block font-sans text-[12.5px] text-accent-danger">{error}</span>
+        <span className="mt-1.5 block text-left font-sans text-[12.5px] text-accent-danger">
+          {error}
+        </span>
       )}
-    </label>
+    </div>
   );
 }

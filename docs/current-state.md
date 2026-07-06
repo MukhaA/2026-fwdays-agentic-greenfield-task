@@ -21,6 +21,23 @@ Each entry records a **timestamp**, the **change**, relevant **links**
 
 ## Log
 
+### 2026-07-06 — Landing redesign + type-scale fix (OpenSpec `landing-redesign`)
+
+- **Change:** Restyled the landing to a centered three-tier hero (italic eyebrow
+  + display headline + standfirst) over an inline username + arrow-action row, to
+  match a provided mock; renamed the modes **View stats/Battle → Explore/Compare**.
+- **Links:** `app/page.tsx` · `app/components/LandingForm.tsx` · `lib/strings.ts`
+  · `app/globals.css` · spec: `openspec/specs/landing-entry/spec.md`
+  (FR-LAND-01/02 modified + centered-hero requirement added)
+- **Brief:** Copy centralized in `lib/strings.ts`; submit is the light primary
+  button with a trailing "→"; inputs use `sr-only`/`aria-label`; active tab text
+  is `text-bg` (AA in both themes). Also fixed a **latent wiring bug**: the
+  `--text-*` sizes were never mapped into `@theme inline`, so `text-display`,
+  `text-h1/h2`, `text-stat`, `text-caption` emitted no utility and preflight reset
+  headings to body size — now mapped, so DS typography renders app-wide. The
+  `/battle` routes and head-to-head view keep their battle identity. Verified with
+  a headless screenshot against the mock; gate green.
+
 ### 2026-07-06 — Explicit header Home control (OpenSpec `header-home-button`)
 
 - **Change:** Added an explicit, labeled **Home** control to the header,

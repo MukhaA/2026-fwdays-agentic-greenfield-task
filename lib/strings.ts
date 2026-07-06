@@ -16,14 +16,17 @@ export const strings = {
   },
 
   landing: {
-    modeStats: "View stats",
-    modeBattle: "Battle",
+    eyebrow: "A quieter way to read a developer.",
+    headline: "The aggregate picture GitHub never shows you.",
+    sub: "Explore one developer's fifteen aggregate signals, or compare two side by side. Public data, no account, no noise.",
+    modeStats: "Explore",
+    modeBattle: "Compare",
     statsInputLabel: "GitHub username",
     battleInputLabelA: "First username",
     battleInputLabelB: "Second username",
     inputPlaceholder: "GitHub username",
     exploreAction: "Explore",
-    fightAction: "Fight",
+    fightAction: "Compare",
     validating: "Checking…",
     errorEmpty: "Enter a username", // FR-LAND-07
     errorNotFound: "User not found", // FR-LAND-05
